@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+    />
+
+    <title>Routines Dashboard</title>
+  </head>
+  <body>
+    <div class="ui container">
+      <br />
+      <h2>Routines and there current states</h2>
+      <br />
+      <br />
+      <table class="ui unstackable celled table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>StepTime</th>
+            <th>Count</th>
+            <th>Status</th>
+            <th>CreatedAt</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range .Render }}
+          <tr>
+            <td>{{ .ID}}</td>
+            <td>{{ .StepTime}}</td>
+            <td>{{ .Count}}</td>
+            <td>{{ .Status}}</td>
+            <td>{{ .CreatedAt}}</td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+
+  </body>
+</html>

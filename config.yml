@@ -1,0 +1,19 @@
+http:
+    address: ":8080"
+  
+log:
+    level: "info"
+    format: "text"
+    filename: ""
+    maxsize: 500
+    maxage: 7
+    maxbackups: 5
+    localtime: false
+    compress: true    
+
+redis:
+    address: "localhost:6379"
+    password: "tstpwd"
+    db: 0
+    maxretries: 3
+    expiration: 10080m
