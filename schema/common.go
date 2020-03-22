@@ -1,50 +1,16 @@
 package schema
 
-import (
-	"time"
-)
+import "github.com/jinzhu/gorm"
 
-type Data struct {
-	ID         string      
-	Channel    chan string 
-	Active     *bool       
-	Status     *string     
-	StepTime   int         
-	Start      int         
-	Count      *int        
-	CreatedAt  time.Time   
-	ModifiedAt time.Time   
+type Mappings struct {
+	gorm.Model
+	URL   string `json:"url" gorm:"column:url"`
+	Hash  string `json:"hash" gorm:"column:hash"`
+	Count int64  `json:"counter" gorm:"column:count"`
 }
 
-type CacheData struct {
-	ID         string      
-	Active     *bool       
-	Status     *string     
-	StepTime   int         
-	Start      int         
-	Count      *int        
-	CreatedAt  time.Time   
-	ModifiedAt time.Time   
-}
-
-type CheckData struct {
-	ID        string    
-	StepTime  int       
-	Count     int       
-	Status    string    
-	CreatedAt time.Time 
-}
-
-type PauseData struct {
-	ID        string    
-	PauseTime time.Time 
-}
-
-type Response struct {
-	Data    interface{} 
-	Success bool        
-}
-
-type HTMLRender struct {
-	Render []CheckData
+type Counter struct {
+	gorm.Model
+	MachineID int   `json:"machine_id" gorm:"column:machine_id"`
+	Count     int64 `json:"count" gorm:"column:count"`
 }

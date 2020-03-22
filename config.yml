@@ -1,5 +1,5 @@
 http:
-    address: ":8080"
+    address: ":5000"
   
 log:
     level: "info"
@@ -17,3 +17,18 @@ redis:
     db: 0
     maxretries: 3
     expiration: 10080m
+
+postgres:
+    host: "localhost"
+    port: 5432
+    database: "postgres"
+    user: ""
+    password: ""
+    sslmode: "disable"
+    maxopenconns: 10
+    maxidleconns: 10
+    maxlifetimconn : 10
+
+counter:
+    machineid: 1
+    range: "100000-1000000"

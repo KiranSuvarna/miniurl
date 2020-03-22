@@ -1,4 +1,4 @@
-BINARY=routines-go
+BINARY=miniurl
 
 VERSION=1.0.0
 GIT_COMMIT=$(shell git rev-parse --short HEAD)
@@ -10,7 +10,7 @@ LDFLAGS=-ldflags "-X main.Version=${VERSION}-${GIT_COMMIT} -X main.BuildTime=${B
 OUTPUT_DIR=.
 OUTPUT_NAME=${BINARY}
 
-GO_PKG=bitbucket.org/smartclean/routines-go
+GO_PKG=bitbucket.org/mine/miniurl
 
 build:
 	go build ${LDFLAGS} -o ${BINARY}
@@ -30,4 +30,4 @@ clean:
 .PHONY: clean install
 
 run:
-	./routines-go
+	./miniurl

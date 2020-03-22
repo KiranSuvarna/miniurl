@@ -10,14 +10,16 @@ import (
 
 // Config Application config parameters
 type Config struct {
-	HTTP  HTTPConfig
-	Log   LogConfig
-	Redis RedisConfig
+	HTTP     HTTPConfig
+	Log      LogConfig
+	Redis    RedisConfig
+	Postgres PostgresConfig
+	Counter  Counter
 }
 
 // HTTPConfig HTTP config parameters
 type HTTPConfig struct {
-	Address      string
+	Address string
 }
 
 // LogConfig Logging configuration
@@ -49,6 +51,23 @@ type RedisConfig struct {
 	DB         int
 	MaxRetries int
 	Expiration time.Duration
+}
+
+type PostgresConfig struct {
+	Host           string
+	Port           int
+	Database       string
+	User           string
+	Password       string
+	SSLMode        string
+	MaxOpenConns   int
+	MaxIdleConns   int
+	MaxLifetimConn int
+}
+
+type Counter struct {
+	MachineID int
+	Range     string
 }
 
 // InitLogging Initialize logging framework

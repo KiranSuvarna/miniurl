@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"bitbucket.org/smartclean/routines-go/config"
+	"bitbucket.org/mine/miniurl/config"
 	"github.com/go-redis/redis"
 	jsoniter "github.com/json-iterator/go"
 )
@@ -21,7 +21,7 @@ type RedisConn struct {
 // NewRedis Creates a new Redis connection
 func NewRedis(conf *config.RedisConfig) (*RedisConn, error) {
 	client := redis.NewClient(&redis.Options{
-		Addr:       conf.Address,
+		Addr: conf.Address,
 	})
 
 	if _, err := client.Ping().Result(); err != nil {

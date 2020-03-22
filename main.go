@@ -10,8 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"bitbucket.org/smartclean/routines-go/api"
-	"bitbucket.org/smartclean/routines-go/config"
+	"bitbucket.org/mine/miniurl/api"
+	"bitbucket.org/mine/miniurl/config"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -26,7 +26,7 @@ var (
 
 	version = flag.Bool("version", false, "print version string")
 
-	appName = "routines-go"
+	appName = "miniurl"
 )
 
 func main() {

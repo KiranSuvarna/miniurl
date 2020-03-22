@@ -1,12 +1,14 @@
 package api
 
 import (
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 
-	"bitbucket.org/smartclean/routines-go/config"
-	"bitbucket.org/smartclean/routines-go/db"
-	"bitbucket.org/smartclean/routines-go/schema"
+	"bitbucket.org/mine/miniurl/config"
+	"bitbucket.org/mine/miniurl/db"
+	"bitbucket.org/mine/miniurl/schema"
 	gintemplate "github.com/foolin/gin-template"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -20,7 +22,8 @@ type Service struct {
 	router    *gin.Engine
 	wg        sync.WaitGroup
 	rc        *db.RedisConn
-	channel   map[string]schema.Data
+	pg        *db.Postgres
+	Counter   schema.Counter
 	AppName   string
 	Version   string
 	BuildTime string
@@ -29,6 +32,14 @@ type Service struct {
 // NewService Create a new service
 func InitService(conf *config.Config) (*Service, error) {
 
+	pg, err := db.NewPostgres(&conf.Postgres)
+
+	if err != nil {
+		log.WithError(err).Error("Failed to connect to DB")
+
+		return nil, err
+	}
+
 	rc, err := db.NewRedis(&conf.Redis)
 	if err != nil {
 		log.WithError(err).Error("Failed to connect to redis")
@@ -36,11 +47,19 @@ func InitService(conf *config.Config) (*Service, error) {
 		return nil, err
 	}
 
+	mID := &conf.Counter.MachineID
+	r := &conf.Counter.Range
+	c, _ := strconv.ParseInt(strings.Split(*r, "-")[0], 10, 64)
+
 	s := &Service{
 		router:       gin.New(),
 		shutdownChan: make(chan bool),
 		rc:           rc,
-		channel :    make(map[string]schema.Data),
+		pg:           pg,
+		Counter: schema.Counter{
+			MachineID: *mID,
+			Count:     c,
+		},
 	}
 
 	s.router.Use(gin.Logger())
@@ -54,20 +73,15 @@ func InitService(conf *config.Config) (*Service, error) {
 	}))
 
 	s.router.HTMLRender = gintemplate.New(gintemplate.TemplateConfig{
-		Root:      "templates",
-		Extension: ".html",
+		Root:         "templates",
+		Extension:    ".html",
 		DisableCache: true,
 	})
 
 	s.router.GET("/", s.index)
 	v1 := s.router.Group("v1")
 	{
-		v1.GET("/_create", s.create)
-		v1.GET("/_check", s.check)
-		v1.PUT("/_pause", s.pause)
-		v1.PUT("/_clear", s.clear)
-		v1.GET("/_render", s.render)
-		v1.POST("/_snapshot", s.snapshot)
+		v1.POST("/mini", s.getMini)
 	}
 	return s, nil
 }
