@@ -5,15 +5,15 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (s *Service) persistTheMiniURLMapping(url, hash string, count int64, re chan ResultError) {
+func (s *Service) persistTheMiniURLMapping(url, hash string, count int, re chan ResultError) {
 	select {
 	case <-re:
 		return
 	default:
 		var err error
 		if err = s.pg.Insert(&schema.Mappings{
-			URL:  url,
-			Hash: hash,
+			URL:   url,
+			Hash:  hash,
 			Count: count,
 		}); err != nil {
 			log.WithError(err).Error("Failed to insert the data!")

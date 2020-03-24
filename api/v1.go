@@ -20,17 +20,15 @@ type ReadResponse struct {
 	Success bool        `json:"success"`
 }
 
-func (s *Service) getMini(c *gin.Context) {
+func (s *Service) getMiniURL(c *gin.Context) {
 
 	var (
 		message, success, code, chanRE = "", false, http.StatusInternalServerError, make(chan ResultError)
 	)
 
 	if url := c.DefaultPostForm("url", ""); url != "" {
-		//TODO: Get count from cache
 		s.Counter.Count += 1
-
-		hash := misc.GenerateBase62Hash(s.Counter.Count)
+		hash := misc.Encode(s.Counter.Count)
 
 		go s.persistTheMiniURLMapping(url, hash, s.Counter.Count, chanRE)
 		resChan := <-chanRE

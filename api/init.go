@@ -49,7 +49,7 @@ func InitService(conf *config.Config) (*Service, error) {
 
 	mID := &conf.Counter.MachineID
 	r := &conf.Counter.Range
-	c, _ := strconv.ParseInt(strings.Split(*r, "-")[0], 10, 64)
+	c, _ := strconv.Atoi(strings.Split(*r, "-")[0])
 
 	s := &Service{
 		router:       gin.New(),
@@ -81,7 +81,7 @@ func InitService(conf *config.Config) (*Service, error) {
 	s.router.GET("/", s.index)
 	v1 := s.router.Group("v1")
 	{
-		v1.POST("/mini", s.getMini)
+		v1.POST("/mini", s.getMiniURL)
 	}
 	return s, nil
 }

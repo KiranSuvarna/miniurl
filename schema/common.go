@@ -6,11 +6,11 @@ type Mappings struct {
 	gorm.Model
 	URL   string `json:"url" gorm:"column:url"`
 	Hash  string `json:"hash" gorm:"column:hash"`
-	Count int64  `json:"counter" gorm:"column:count"`
+	Count int    `json:"counter" gorm:"column:count"`
 }
 
 type Counter struct {
 	gorm.Model
-	MachineID int   `json:"machine_id" gorm:"column:machine_id"`
-	Count     int64 `json:"count" gorm:"column:count"`
+	MachineID int `json:"machine_id" gorm:"column:machine_id"`
+	Count     int `json:"count" gorm:"column:count"`
 }
