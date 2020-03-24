@@ -79,9 +79,9 @@ func InitService(conf *config.Config) (*Service, error) {
 	})
 
 	s.router.GET("/", s.index)
-	v1 := s.router.Group("v1")
+	v1 := s.router.Group("api/v1")
 	{
-		v1.POST("/mini", s.getMiniURL)
+		v1.POST("/mini", s.getMiniFromURL)
 	}
 	return s, nil
 }
